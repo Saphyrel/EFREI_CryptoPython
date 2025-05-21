@@ -16,13 +16,13 @@ def hello_world():
 
 @app.route('/key/<string:valeur>')
 def key(valeur):
-    f = Fernet(valeur)
-    return f"Voici la clé utilisé pour le chiffrement et déchiffrement : {f}"
+    k = Fernet(valeur)
+    return k, f"Voici la clé utilisé pour le chiffrement et déchiffrement : {k}"
 
 @app.route('/encrypt/<string:valeur>')
 def encryptage(valeur):
     valeur_bytes = valeur.encode()  # Conversion str -> bytes
-    token = f.encrypt(valeur_bytes)  # Encrypt la valeur
+    token = k.encrypt(valeur_bytes)  # Encrypt la valeur
     return f"Valeur encryptée : {token.decode()}"  # Retourne le token en str
 
 @app.route('/decrypt/<string:valeur>')
