@@ -5,16 +5,19 @@ from flask import json
 from urllib.request import urlopen
 import sqlite3
 
-# Push test
-
 app = Flask(__name__)                                                                                                                  
                                                                                                                                        
 @app.route('/')
 def hello_world():
     return render_template('hello.html')
 
-key = Fernet.generate_key()
-f = Fernet(key)
+#key = Fernet.generate_key()
+#f = Fernet(key)
+
+@app.route('/key/<string:valeur>')
+def key(valeur):
+    f = Fernet(valeur)
+    return f"Voici la clé utilisé pour le chiffrement et déchiffrement : {f}"
 
 @app.route('/encrypt/<string:valeur>')
 def encryptage(valeur):
@@ -27,6 +30,6 @@ def decryptage(valeur):
     valeur_bytes = valeur.encode()
     token = f.decrypt(valeur_bytes)
     return f"Valeur décryptée : {token.decode()}"
-
+                                                                                                                                                     
 if __name__ == "__main__":
   app.run(debug=True)
